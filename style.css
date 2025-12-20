@@ -100,18 +100,15 @@ body.grabbing {
 .hero {
   min-height: 100vh;
   height: 100vh;
-  /* Full viewport height - hero section only */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 2rem 1rem;
   width: 100%;
-  /* Safe area for notched devices */
   padding-top: max(2rem, env(safe-area-inset-top));
   padding-bottom: max(2rem, env(safe-area-inset-bottom));
   position: relative;
-  overflow: hidden; /* Prevent content overflow */
 }
 
 /* Scroll Indicator */
@@ -158,29 +155,24 @@ body.grabbing {
   gap: 1.5rem;
   max-width: 1200px;
   width: 100%;
-  padding: 0 1rem;
-  /* Ensure content fits within viewport */
-  max-height: 90vh;
-  justify-content: center;
 }
 
 .main-logo {
   width: 600px;
-  max-width: 80vw; /* Changed from 90vw to 80vw for better fit */
+  max-width: 90vw;
   height: auto;
   filter: drop-shadow(0 0 30px rgba(45, 149, 149, 0.3));
-  margin: 1rem 0;
-  object-fit: contain; /* Ensure image maintains aspect ratio */
+  margin: 1.5rem 0;
 }
 
 /* Ensure title is visually above due to HTML change, but adding order just in case */
 .title {
-  font-size: clamp(2rem, 8vw, 6rem); /* Responsive font size that scales */
+  font-size: 6rem;
   font-weight: 700;
   line-height: 1.1;
   color: #264653;
-  word-wrap: break-word;
-  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
 }
 
 .highlight {
@@ -193,11 +185,11 @@ body.grabbing {
 }
 
 .subtitle {
-  font-size: clamp(1rem, 3vw, 2rem); /* Responsive subtitle */
+  font-size: 2rem;
   color: var(--text-primary);
   font-weight: 900;
-  word-wrap: break-word;
-  max-width: 100%;
+  margin: 0;
+  padding: 0 1rem;
 }
 
 /* Action Section (CA + Socials) */
@@ -600,9 +592,17 @@ code {
 
 /* Tablet devices (768px - 1024px) */
 @media (max-width: 1024px) {
+  .title {
+    font-size: 4rem;
+  }
+  
+  .subtitle {
+    font-size: 1.6rem;
+  }
+  
   .main-logo {
     width: 500px;
-    max-width: 75vw;
+    max-width: 85vw;
   }
   
   .lore-card h2 {
@@ -620,6 +620,21 @@ code {
 
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .main-logo {
+    width: 300px;
+    max-width: 80vw;
+    margin: 1rem 0;
+  }
+  
   /* Hero section */
   .hero {
     min-height: 100vh;
@@ -629,13 +644,6 @@ code {
   
   .hero-content {
     gap: 1rem;
-    max-height: 85vh;
-  }
-  
-  .main-logo {
-    width: 300px;
-    max-width: 70vw;
-    margin: 0.75rem 0;
   }
   
   /* Scroll indicator */
@@ -773,9 +781,17 @@ code {
 
 /* Small mobile devices (up to 480px) */
 @media (max-width: 480px) {
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
   .main-logo {
     width: 250px;
-    max-width: 65vw;
+    max-width: 75vw;
   }
   
   .contract-container {
@@ -837,9 +853,17 @@ code {
 
 /* Extra small devices (up to 360px) */
 @media (max-width: 360px) {
+  .title {
+    font-size: 1.75rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
   .main-logo {
     width: 200px;
-    max-width: 60vw;
+    max-width: 70vw;
   }
   
   .hero {
@@ -849,7 +873,6 @@ code {
   }
   
   .hero-content {
-    max-height: 80vh;
     gap: 0.75rem;
   }
   
@@ -896,13 +919,20 @@ code {
   
   .main-logo {
     width: 180px;
-    max-width: 50vw;
+    max-width: 60vw;
     margin: 0.5rem 0;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
   }
   
   .hero-content {
     gap: 0.5rem;
-    max-height: 85vh;
   }
   
   .scroll-indicator {
