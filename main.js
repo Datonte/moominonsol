@@ -42,13 +42,13 @@ const ctx = canvas.getContext('2d');
 let width, height;
 let particles = [];
 // Dynamic variables instead of constants
-let particleCount = 1400;
+let particleCount = 1600;
 let maxPileCount = 400;
 let pileCount = 0;
 let respawnMultiplier = 1.5;
 let interactionRadius = 150;
-const GRAVITY = 0.35;
-const TERMINAL_VELOCITY = 8;
+const GRAVITY = 0.2;
+const TERMINAL_VELOCITY = 4;
 
 // Liquid Snow Globals
 const GRID_SIZE = 25; // Size of density bins in pixels
@@ -87,11 +87,11 @@ function resize() {
   // Goal: Maintain the exact same visual density and effects across all devices.
 
   // 1. Particle Density (Particles per pixel)
-  // Desktop Reference: 1400 particles on ~1920x1080 (2,073,600 px)
-  // Ratio: ~0.000675 particles per pixel
+  // Desktop Reference: 1600 particles on ~1920x1080 (2,073,600 px)
+  // Ratio: ~0.00077 particles per pixel
   const baseArea = 1920 * 1080;
   const currentArea = width * height;
-  const particleRatio = 1400 / baseArea;
+  const particleRatio = 1600 / baseArea;
 
   // Calculate proportional count, but cap it for performance on huge screens
   // and set a healthy minimum for mobile so it doesn't look empty.
@@ -120,12 +120,12 @@ function resize() {
   interactionRadius = Math.max(40, Math.min(150, width * 0.15));
 
   // 4. Respawn Logic
-  // Maintain constant flow. Tighter multiplier on shorter screens.
-  respawnMultiplier = height < 800 ? 1.2 : 1.5;
+  // Maintain constant flow. Lower multiplier = tighter stream = fewer gaps
+  respawnMultiplier = height < 800 ? 0.6 : 0.8;
 
   // Bounds consistency: Ensure no counts drop to "zero" logic
-  // Caps: Min 300 flakes (for looks), Max 1500 (for perf)
-  particleCount = Math.min(Math.max(300, particleCount), 1500);
+  // Caps: Min 300 flakes (for looks), Max 2000 (for lush density)
+  particleCount = Math.min(Math.max(300, particleCount), 2000);
   maxPileCount = Math.max(80, maxPileCount);   // Lowered minimum for mobile proportions
 
   // Resample particles array match new target
@@ -236,9 +236,9 @@ class Particle {
         this.landed = false;
         pileCount = Math.max(0, pileCount - 1);
 
-        // Kick UP - CHANGED: Reduced force (-3) and scatter (1.5)
-        this.vy = -3 - (Math.random() * 3);
-        this.vx += (Math.random() - 0.5) * 1.5; 
+        // Kick UP - CHANGED: Increased force (-5) and scatter (3.0) for "Fling" effect
+        this.vy = -5 - (Math.random() * 5);
+        this.vx += (Math.random() - 0.5) * 3.0; 
         this.y -= 2; // CHANGED: Instantly lift off ground to prevent logic loops
         kicked = true;
 
