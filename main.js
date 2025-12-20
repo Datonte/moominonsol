@@ -79,26 +79,44 @@ function resize() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
 
-  // Mobile Optimization:
-  // Dynamically adjust counts based on screen real estate
-  const isMobile = width < 768;
+  // UNIVERSAL SCALING LOGIC
+  // Goal: Maintain the exact same visual density and effects across all devices.
 
-  if (isMobile) {
-    // Very light snow for mobile to prevent "walls"
-    particleCount = 250;
-    // Pile limit = Just a dusting. 
-    // 375px / 5 = 75 particles max on ground.
-    // This ensures it never builds a "tower".
-    maxPileCount = Math.floor(width / 5);
-    flakeSize = 15;
-    // Fix "Stops Snowing": Spawn closer to top so they fall into view instantly
-    respawnMultiplier = 1.1;
+  // 1. Particle Density (Particles per pixel)
+  // Desktop Reference: 1500 particles on ~1920x1080 (2,073,600 px)
+  // Ratio: ~0.00072 particles per pixel
+  const baseArea = 1920 * 1080;
+  const currentArea = width * height;
+  const particleRatio = 1500 / baseArea;
+
+  // Calculate proportional count, but cap it for performance on huge screens
+  // and set a healthy minimum for mobile so it doesn't look empty.
+  particleCount = Math.floor(currentArea * particleRatio);
+
+  // 2. Pile Density (Pile particles per width pixel)
+  // Desktop Reference: 900 pile count on 1920 width.
+  // Ratio: ~0.47 particles per lateral pixel.
+  // This ensures the pile height (visual height) stays relatively constant % of screen.
+  const pileRatio = 0.47;
+  maxPileCount = Math.floor(width * pileRatio);
+
+  // 3. Flake Size
+  // Keep them relatively large to maintain the "Moomin" art style
+  // Only scale down slightly on very narrow screens
+  if (width < 600) {
+    flakeSize = 18; // Readable on mobile
   } else {
-    particleCount = 1500;
-    maxPileCount = 900;
-    flakeSize = 25;
-    respawnMultiplier = 1.5;
+    flakeSize = 25; // Original Desktop size
   }
+
+  // 4. Respawn Logic
+  // Maintain constant flow. Tighter multiplier on shorter screens.
+  respawnMultiplier = height < 800 ? 1.2 : 1.5;
+
+  // Bounds consistency: Ensure no counts drop to "zero" logic
+  // Caps: Min 300 flakes (for looks), Max 1500 (for perf)
+  particleCount = Math.min(Math.max(300, particleCount), 1500);
+  maxPileCount = Math.max(150, maxPileCount);   // Always allow a pile
 
   // Resample particles array match new target
   if (particles.length > particleCount) {
