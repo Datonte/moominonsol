@@ -34,13 +34,15 @@ document.querySelectorAll('.slide-in').forEach(el => {
 
 
 // Snowflake Animation Engine
+// Snowflake Animation Engine
 const canvas = document.getElementById('snow-canvas');
 const ctx = canvas.getContext('2d');
 
 let width, height;
 let particles = [];
-const PARTICLE_COUNT = 1500; // Super Dense
-const MAX_PILE_COUNT = 900;  // Increased for liquid feel
+// Dynamic variables instead of constants
+let particleCount = 1500;
+let maxPileCount = 900;
 let pileCount = 0;
 const GRAVITY = 0.35;
 const TERMINAL_VELOCITY = 8;
@@ -59,14 +61,15 @@ snowImage.src = '/snowflake.png';
 // Offscreen buffer
 let offscreenCanvas;
 let offscreenCtx;
-const flakeSize = 25;
+let flakeSize = 25; // Default
 
 snowImage.onload = () => {
   offscreenCanvas = document.createElement('canvas');
-  offscreenCanvas.width = flakeSize;
-  offscreenCanvas.height = flakeSize;
+  // Render at high res (desktop size) to allow pretty downscaling
+  offscreenCanvas.width = 25;
+  offscreenCanvas.height = 25;
   offscreenCtx = offscreenCanvas.getContext('2d');
-  offscreenCtx.drawImage(snowImage, 0, 0, flakeSize, flakeSize);
+  offscreenCtx.drawImage(snowImage, 0, 0, 25, 25);
 
   init();
   animate();
@@ -75,6 +78,34 @@ snowImage.onload = () => {
 function resize() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
+
+  // Mobile Optimization:
+  // Dynamically adjust counts based on screen real estate
+  const isMobile = width < 768;
+
+  if (isMobile) {
+    // Sparser snow on mobile to avoid clutter
+    particleCount = 600;
+    // Limit pile height significantly on narrow screens (width dependent)
+    // e.g. 375px width -> max 300 particles in pile.
+    maxPileCount = Math.floor(width * 0.8);
+    flakeSize = 15; // Small flakes for mobile
+  } else {
+    particleCount = 1500;
+    maxPileCount = 900;
+    flakeSize = 25; // Big flakes for desktop
+  }
+
+  // Resample particles array match new target
+  if (particles.length > particleCount) {
+    particles = particles.slice(0, particleCount);
+    // Recalculate pileCount just in case (approximate or just let it settle)
+    pileCount = particles.filter(p => p.landed).length;
+  } else {
+    while (particles.length < particleCount) {
+      particles.push(new Particle());
+    }
+  }
 }
 
 window.addEventListener('resize', resize);
@@ -191,7 +222,7 @@ class Particle {
 
       // Floor Interaction
       if (this.y >= height - this.size && this.vy > 0) {
-        if (pileCount < MAX_PILE_COUNT) {
+        if (pileCount < maxPileCount) {
           this.landed = true;
           this.y = height - this.size;
           this.vy = 0;
@@ -235,11 +266,11 @@ class Particle {
       if (flowSpeed !== 0) {
         // Add some noise so they don't move in lockstep
         this.x += flowSpeed * (0.5 + Math.random());
-
-        // Constrain
-        if (this.x < 0) this.x = 0;
-        if (this.x > width - this.size) this.x = width - this.size;
       }
+
+      // BOUNDS CHECK for landed particles (Critical for resize)
+      if (this.x < 0) this.x = 0;
+      if (this.x > width - this.size) this.x = width - this.size;
     }
   }
 
@@ -259,7 +290,7 @@ function init() {
   resize();
   particles = [];
   pileCount = 0;
-  for (let i = 0; i < PARTICLE_COUNT; i++) {
+  for (let i = 0; i < particleCount; i++) {
     particles.push(new Particle());
   }
 }
