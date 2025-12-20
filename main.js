@@ -143,10 +143,8 @@ class Particle {
   reset(initial = false) {
     this.x = Math.random() * width;
 
-    // FIX: "Pouring" effect caused by narrow spawn range. 
-    // Spread respawn over a huge vertical area so they trickle in continuously rather than dumping in waves.
-    // Negative Y so they fall into view.
-    this.y = initial ? Math.random() * height : -flakeSize - (Math.random() * height * 1.5);
+    // Use dynamic respawnMultiplier
+    this.y = initial ? Math.random() * height : -flakeSize - (Math.random() * height * respawnMultiplier);
 
     this.vx = (Math.random() - 0.5) * 2;
     this.vy = 2 + Math.random() * 2;
