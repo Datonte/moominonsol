@@ -1,4 +1,5 @@
 import './style.css'
+import snowSrc from './assets/pngwing.com.png'
 
 // Clipboard Logic
 const copyBtn = document.getElementById('copy-btn');
@@ -41,9 +42,11 @@ const ctx = canvas.getContext('2d');
 let width, height;
 let particles = [];
 // Dynamic variables instead of constants
-let particleCount = 1500;
-let maxPileCount = 900;
+let particleCount = 1400;
+let maxPileCount = 400;
 let pileCount = 0;
+let respawnMultiplier = 1.5;
+let interactionRadius = 150;
 const GRAVITY = 0.35;
 const TERMINAL_VELOCITY = 8;
 
@@ -53,10 +56,11 @@ let densityGrid = [];
 
 // Mouse State
 const mouse = { x: -1000, y: -1000 };
+let lastTouchTime = 0;
 
 // Load Image
 const snowImage = new Image();
-snowImage.src = '/snowflake.png';
+snowImage.src = snowSrc;
 
 // Offscreen buffer
 let offscreenCanvas;
@@ -83,21 +87,21 @@ function resize() {
   // Goal: Maintain the exact same visual density and effects across all devices.
 
   // 1. Particle Density (Particles per pixel)
-  // Desktop Reference: 1500 particles on ~1920x1080 (2,073,600 px)
-  // Ratio: ~0.00072 particles per pixel
+  // Desktop Reference: 1400 particles on ~1920x1080 (2,073,600 px)
+  // Ratio: ~0.000675 particles per pixel
   const baseArea = 1920 * 1080;
   const currentArea = width * height;
-  const particleRatio = 1500 / baseArea;
+  const particleRatio = 1400 / baseArea;
 
   // Calculate proportional count, but cap it for performance on huge screens
   // and set a healthy minimum for mobile so it doesn't look empty.
   particleCount = Math.floor(currentArea * particleRatio);
 
   // 2. Pile Density (Pile particles per width pixel)
-  // Desktop Reference: 900 pile count on 1920 width.
-  // Ratio: ~0.47 particles per lateral pixel.
+  // Desktop Reference: 400 pile count on 1920 width.
+  // Ratio: ~0.208 particles per lateral pixel.
   // This ensures the pile height (visual height) stays relatively constant % of screen.
-  const pileRatio = 0.47;
+  const pileRatio = 400 / 1920;
   maxPileCount = Math.floor(width * pileRatio);
 
   // 3. Flake Size
@@ -109,6 +113,12 @@ function resize() {
     flakeSize = 25; // Original Desktop size
   }
 
+  // Scale interaction radius for mobile - purely proportional now
+  // 150px on 1920width = ~0.078 of width
+  // But let's keep it reasonable.
+  // CHANGED: Reduced minimum from 80 to 40 to prevent "explosive" touches on small screens
+  interactionRadius = Math.max(40, Math.min(150, width * 0.15));
+
   // 4. Respawn Logic
   // Maintain constant flow. Tighter multiplier on shorter screens.
   respawnMultiplier = height < 800 ? 1.2 : 1.5;
@@ -116,7 +126,7 @@ function resize() {
   // Bounds consistency: Ensure no counts drop to "zero" logic
   // Caps: Min 300 flakes (for looks), Max 1500 (for perf)
   particleCount = Math.min(Math.max(300, particleCount), 1500);
-  maxPileCount = Math.max(150, maxPileCount);   // Always allow a pile
+  maxPileCount = Math.max(80, maxPileCount);   // Lowered minimum for mobile proportions
 
   // Resample particles array match new target
   if (particles.length > particleCount) {
@@ -128,16 +138,46 @@ function resize() {
       particles.push(new Particle());
     }
   }
+
+  // Fix landed particles position on resize (e.g. orientation change)
+  particles.forEach(p => {
+    if (p.landed) {
+      p.y = height - p.size;
+    }
+  });
 }
 
 window.addEventListener('resize', resize);
 window.addEventListener('mousemove', (e) => {
+  // Ignore emulated mouse events after touch
+  if (Date.now() - lastTouchTime < 500) return;
   mouse.x = e.clientX;
   mouse.y = e.clientY;
 });
 window.addEventListener('touchmove', (e) => {
+  lastTouchTime = Date.now();
   mouse.x = e.touches[0].clientX;
   mouse.y = e.touches[0].clientY;
+});
+window.addEventListener('touchstart', (e) => {
+  lastTouchTime = Date.now();
+  mouse.x = e.touches[0].clientX;
+  mouse.y = e.touches[0].clientY;
+}, { passive: true });
+window.addEventListener('touchend', (e) => {
+  lastTouchTime = Date.now();
+  // Prevent ghost clicks or sustained force
+  mouse.x = -1000;
+  mouse.y = -1000;
+});
+window.addEventListener('touchcancel', () => {
+  lastTouchTime = Date.now();
+  mouse.x = -1000;
+  mouse.y = -1000;
+});
+window.addEventListener('mouseleave', () => {
+  mouse.x = -1000;
+  mouse.y = -1000;
 });
 
 // Update the density grid for the current frame
@@ -186,7 +226,6 @@ class Particle {
     const dx = this.x - mouse.x;
     const dy = this.y - mouse.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const interactionRadius = 150;
 
     let kicked = false;
 
@@ -197,9 +236,10 @@ class Particle {
         this.landed = false;
         pileCount = Math.max(0, pileCount - 1);
 
-        // Kick UP
-        this.vy = -6 - (Math.random() * 4);
-        this.vx += (Math.random() - 0.5) * 3; // Bit more scatter allowed since liquid will fix it
+        // Kick UP - CHANGED: Reduced force (-3) and scatter (1.5)
+        this.vy = -3 - (Math.random() * 3);
+        this.vx += (Math.random() - 0.5) * 1.5; 
+        this.y -= 2; // CHANGED: Instantly lift off ground to prevent logic loops
         kicked = true;
 
       } else if (!this.landed) {
@@ -230,19 +270,26 @@ class Particle {
 
       // Apply friction ONLY if moving fast (kicked/wind), otherwise let it sway natural
       if (Math.abs(this.vx) > 1) {
-        this.vx *= 0.95;
+        this.vx *= 0.8; // Increased friction to help them settle back down faster
+      } else {
+        this.vx *= 0.98; // Gentle air resistance always to prevent endless drifting
       }
 
       // Wall Bouncing
       if (this.x <= 0 || this.x >= width - this.size) {
-        this.vx *= -0.8;
+        this.vx *= -0.3; // Dampen wall bounces significantly (thud instead of bounce)
         if (this.x <= 0) this.x = 1;
         if (this.x >= width - this.size) this.x = width - this.size - 1;
       }
 
       // Floor Interaction
       if (this.y >= height - this.size && this.vy > 0) {
-        if (pileCount < maxPileCount) {
+        // Check local density to prioritize filling holes
+        const bin = Math.floor(this.x / GRID_SIZE);
+        const localDensity = densityGrid[bin] || 0;
+        
+        // Land if we are under the global cap OR if this specific spot is empty (hole filling)
+        if (pileCount < maxPileCount || localDensity < 2) {
           this.landed = true;
           this.y = height - this.size;
           this.vy = 0;
@@ -265,8 +312,10 @@ class Particle {
       const safeLeft = leftDensity === undefined ? 9999 : leftDensity;
       const safeRight = rightDensity === undefined ? 9999 : rightDensity;
 
-      // Threshold of 3 prevents constant jittering on flat surfaces
-      const flowThresh = 2;
+      // Threshold of 6 is even stricter to stop any micro-movements
+      // Higher threshold = more stable pile, less "shimmering"
+      // CHANGED: Increased threshold to 6
+      const flowThresh = 6;
 
       // Bias towards lower density
       // Move towards the neighbor with the BIGGER difference
@@ -275,17 +324,19 @@ class Particle {
 
       let flowSpeed = 0;
 
+      // CHANGED: Reduced flow speed to 0.5 for gentler settling
       if (leftDiff > flowThresh && leftDiff >= rightDiff) {
         // Left is emptier, go left
-        flowSpeed = -1.5;
+        flowSpeed = -0.5;
       } else if (rightDiff > flowThresh && rightDiff > leftDiff) {
         // Right is emptier, go right
-        flowSpeed = 1.5;
+        flowSpeed = 0.5;
       }
 
       if (flowSpeed !== 0) {
-        // Add some noise so they don't move in lockstep
-        this.x += flowSpeed * (0.5 + Math.random());
+        // Reduced noise for smoother settling
+        // CHANGED: Removed randomness completely for stability. Only move if needed.
+        this.x += flowSpeed; 
       }
 
       // BOUNDS CHECK for landed particles (Critical for resize)
