@@ -152,22 +152,22 @@ body.grabbing {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.4rem;
   max-width: 1200px;
   width: 100%;
 }
 
 .main-logo {
-  width: 450px;
+  width: 520px;
   max-width: 85vw;
   height: auto;
   filter: drop-shadow(0 0 30px rgba(45, 149, 149, 0.3));
-  margin: 1rem 0;
+  margin: 1.2rem 0;
 }
 
 /* Ensure title is visually above due to HTML change, but adding order just in case */
 .title {
-  font-size: 3.5rem;
+  font-size: 4.5rem;
   font-weight: 700;
   line-height: 1.2;
   color: #264653;
@@ -185,7 +185,7 @@ body.grabbing {
 }
 
 .subtitle {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   color: var(--text-primary);
   font-weight: 900;
   margin: 0;
@@ -593,15 +593,15 @@ code {
 /* Tablet devices (768px - 1024px) */
 @media (max-width: 1024px) {
   .title {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
   
   .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
   
   .main-logo {
-    width: 400px;
+    width: 450px;
     max-width: 80vw;
   }
   
@@ -621,18 +621,18 @@ code {
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
   .title {
-    font-size: 2rem;
+    font-size: 2.3rem;
     line-height: 1.2;
   }
   
   .subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   
   .main-logo {
-    width: 280px;
+    width: 320px;
     max-width: 75vw;
-    margin: 0.8rem 0;
+    margin: 0.9rem 0;
   }
   
   /* Hero section */
@@ -782,15 +782,15 @@ code {
 /* Small mobile devices (up to 480px) */
 @media (max-width: 480px) {
   .title {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
   
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .main-logo {
-    width: 220px;
+    width: 240px;
     max-width: 70vw;
   }
   
