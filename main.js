@@ -84,16 +84,20 @@ function resize() {
   const isMobile = width < 768;
 
   if (isMobile) {
-    // Sparser snow on mobile to avoid clutter
-    particleCount = 600;
-    // Limit pile height significantly on narrow screens (width dependent)
-    // e.g. 375px width -> max 300 particles in pile.
-    maxPileCount = Math.floor(width * 0.8);
-    flakeSize = 15; // Small flakes for mobile
+    // Very light snow for mobile to prevent "walls"
+    particleCount = 250;
+    // Pile limit = Just a dusting. 
+    // 375px / 5 = 75 particles max on ground.
+    // This ensures it never builds a "tower".
+    maxPileCount = Math.floor(width / 5);
+    flakeSize = 15;
+    // Fix "Stops Snowing": Spawn closer to top so they fall into view instantly
+    respawnMultiplier = 1.1;
   } else {
     particleCount = 1500;
     maxPileCount = 900;
-    flakeSize = 25; // Big flakes for desktop
+    flakeSize = 25;
+    respawnMultiplier = 1.5;
   }
 
   // Resample particles array match new target
