@@ -105,12 +105,13 @@ body.grabbing {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 1rem;
   width: 100%;
   /* Safe area for notched devices */
   padding-top: max(2rem, env(safe-area-inset-top));
   padding-bottom: max(2rem, env(safe-area-inset-bottom));
   position: relative;
+  overflow: hidden; /* Prevent content overflow */
 }
 
 /* Scroll Indicator */
@@ -155,25 +156,31 @@ body.grabbing {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  max-width: 1000px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 0 1rem;
+  /* Ensure content fits within viewport */
+  max-height: 90vh;
+  justify-content: center;
 }
 
 .main-logo {
   width: 600px;
-  /* Balanced size to fit subtitle in hero but keep CA separate */
-  max-width: 90vw;
+  max-width: 80vw; /* Changed from 90vw to 80vw for better fit */
   height: auto;
   filter: drop-shadow(0 0 30px rgba(45, 149, 149, 0.3));
-  margin: 1.5rem 0;
+  margin: 1rem 0;
+  object-fit: contain; /* Ensure image maintains aspect ratio */
 }
 
 /* Ensure title is visually above due to HTML change, but adding order just in case */
 .title {
-  font-size: 6rem;
-  /* Bigger title */
+  font-size: clamp(2rem, 8vw, 6rem); /* Responsive font size that scales */
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.1;
   color: #264653;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .highlight {
@@ -186,11 +193,11 @@ body.grabbing {
 }
 
 .subtitle {
-  font-size: 2rem;
-  /* Bigger/More prominent */
+  font-size: clamp(1rem, 3vw, 2rem); /* Responsive subtitle */
   color: var(--text-primary);
-  /* Darker for better readability */
   font-weight: 900;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 /* Action Section (CA + Socials) */
@@ -593,16 +600,9 @@ code {
 
 /* Tablet devices (768px - 1024px) */
 @media (max-width: 1024px) {
-  .title {
-    font-size: 4rem;
-  }
-  
-  .subtitle {
-    font-size: 1.6rem;
-  }
-  
   .main-logo {
     width: 500px;
+    max-width: 75vw;
   }
   
   .lore-card h2 {
@@ -620,22 +620,6 @@ code {
 
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
-  /* Typography scaling */
-  .title {
-    font-size: 2.5rem;
-    line-height: 1.1;
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-    font-weight: 700;
-  }
-  
-  .main-logo {
-    width: 300px;
-    margin: 1rem 0;
-  }
-  
   /* Hero section */
   .hero {
     min-height: 100vh;
@@ -645,6 +629,13 @@ code {
   
   .hero-content {
     gap: 1rem;
+    max-height: 85vh;
+  }
+  
+  .main-logo {
+    width: 300px;
+    max-width: 70vw;
+    margin: 0.75rem 0;
   }
   
   /* Scroll indicator */
@@ -782,16 +773,9 @@ code {
 
 /* Small mobile devices (up to 480px) */
 @media (max-width: 480px) {
-  .title {
-    font-size: 2rem;
-  }
-  
-  .subtitle {
-    font-size: 1rem;
-  }
-  
   .main-logo {
     width: 250px;
+    max-width: 65vw;
   }
   
   .contract-container {
@@ -853,22 +837,20 @@ code {
 
 /* Extra small devices (up to 360px) */
 @media (max-width: 360px) {
-  .title {
-    font-size: 1.75rem;
-  }
-  
-  .subtitle {
-    font-size: 0.9rem;
-  }
-  
   .main-logo {
     width: 200px;
+    max-width: 60vw;
   }
   
   .hero {
     padding: 1rem 0.75rem;
     min-height: 100vh;
     height: 100vh;
+  }
+  
+  .hero-content {
+    max-height: 80vh;
+    gap: 0.75rem;
   }
   
   .action-section {
@@ -914,19 +896,13 @@ code {
   
   .main-logo {
     width: 180px;
+    max-width: 50vw;
     margin: 0.5rem 0;
-  }
-  
-  .title {
-    font-size: 1.8rem;
-  }
-  
-  .subtitle {
-    font-size: 0.9rem;
   }
   
   .hero-content {
     gap: 0.5rem;
+    max-height: 85vh;
   }
   
   .scroll-indicator {
