@@ -137,55 +137,6 @@ body.grabbing {
   position: relative;
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  bottom: max(2rem, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--highlight);
-  font-size: 2rem;
-  animation: bounce-vertical 2s ease-in-out infinite;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  z-index: 10;
-  display: none; /* Hidden on desktop by default */
-}
-
-.scroll-indicator:hover {
-  opacity: 1;
-}
-
-@keyframes bounce-vertical {
-  0%, 100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(10px);
-  }
-}
-
-/* Show scroll indicator only on mobile/tablet */
-@media (max-width: 1024px) {
-  .scroll-indicator {
-    display: block;
-    bottom: 12rem;
-    bottom: max(12rem, calc(env(safe-area-inset-bottom) + 10rem));
-    font-size: 2.2rem;
-  }
-}
-
-/* Adjust for smaller mobile screens */
-@media (max-width: 480px) {
-  .scroll-indicator {
-    bottom: 10rem;
-    bottom: max(10rem, calc(env(safe-area-inset-bottom) + 8rem));
-    font-size: 1.8rem;
-  }
-}
-
 .hero-content {
   display: flex;
   flex-direction: column;
@@ -639,8 +590,8 @@ code {
   }
   
   .main-logo {
-    width: 480px;
-    max-width: 82vw;
+    width: 550px;
+    max-width: 85vw;
   }
   
   .hero-content {
@@ -672,8 +623,8 @@ code {
   }
   
   .main-logo {
-    width: 360px;
-    max-width: 78vw;
+    width: 420px;
+    max-width: 82vw;
     margin: 1rem 0;
   }
   
@@ -686,13 +637,6 @@ code {
   
   .hero-content {
     gap: 1.1rem;
-  }
-  
-  /* Scroll indicator */
-  .scroll-indicator {
-    bottom: 1.5rem;
-    bottom: max(1.5rem, env(safe-area-inset-bottom));
-    font-size: 1.5rem;
   }
   
   /* Action section - Contract & Socials */
@@ -823,8 +767,8 @@ code {
   }
   
   .main-logo {
-    width: 270px;
-    max-width: 73vw;
+    width: 320px;
+    max-width: 78vw;
   }
   
   .hero-content {
@@ -899,8 +843,8 @@ code {
   }
   
   .main-logo {
-    width: 230px;
-    max-width: 72vw;
+    width: 270px;
+    max-width: 78vw;
   }
   
   .hero {
@@ -955,8 +899,8 @@ code {
   }
   
   .main-logo {
-    width: 200px;
-    max-width: 55vw;
+    width: 230px;
+    max-width: 60vw;
     margin: 0.4rem 0;
   }
   
@@ -970,10 +914,6 @@ code {
   
   .hero-content {
     gap: 0.6rem;
-  }
-  
-  .scroll-indicator {
-    display: none; /* Hide in landscape to save space */
   }
   
   .action-section {

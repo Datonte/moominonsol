@@ -1,30 +1,6 @@
 import './style.css'
 import snowSrc from './assets/pngwing.com.png'
 
-// Scroll Indicator
-const scrollIndicator = document.querySelector('.scroll-indicator');
-if (scrollIndicator) {
-  scrollIndicator.addEventListener('click', () => {
-    const actionSection = document.querySelector('.action-section');
-    if (actionSection) {
-      actionSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-  
-  // Hide scroll indicator when user scrolls past hero
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const heroHeight = document.querySelector('.hero')?.offsetHeight || 0;
-    if (window.scrollY > heroHeight * 0.3) {
-      scrollIndicator.style.opacity = '0';
-      scrollIndicator.style.pointerEvents = 'none';
-    } else {
-      scrollIndicator.style.opacity = '0.7';
-      scrollIndicator.style.pointerEvents = 'auto';
-    }
-  });
-}
-
 // Clipboard Logic
 const copyBtn = document.getElementById('copy-btn');
 const contractCode = document.getElementById('contract-address');
