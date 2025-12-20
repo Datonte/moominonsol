@@ -171,18 +171,18 @@ body.grabbing {
 @media (max-width: 1024px) {
   .scroll-indicator {
     display: block;
-    bottom: 5rem;
-    bottom: max(5rem, calc(env(safe-area-inset-bottom) + 4rem));
-    font-size: 2rem;
+    bottom: 12rem;
+    bottom: max(12rem, calc(env(safe-area-inset-bottom) + 10rem));
+    font-size: 2.2rem;
   }
 }
 
 /* Adjust for smaller mobile screens */
 @media (max-width: 480px) {
   .scroll-indicator {
-    bottom: 4rem;
-    bottom: max(4rem, calc(env(safe-area-inset-bottom) + 3rem));
-    font-size: 1.6rem;
+    bottom: 10rem;
+    bottom: max(10rem, calc(env(safe-area-inset-bottom) + 8rem));
+    font-size: 1.8rem;
   }
 }
 
