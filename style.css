@@ -152,24 +152,24 @@ body.grabbing {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.2rem;
   max-width: 1200px;
   width: 100%;
 }
 
 .main-logo {
-  width: 600px;
-  max-width: 90vw;
+  width: 450px;
+  max-width: 85vw;
   height: auto;
   filter: drop-shadow(0 0 30px rgba(45, 149, 149, 0.3));
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }
 
 /* Ensure title is visually above due to HTML change, but adding order just in case */
 .title {
-  font-size: 6rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.2;
   color: #264653;
   margin: 0;
   padding: 0 1rem;
@@ -185,7 +185,7 @@ body.grabbing {
 }
 
 .subtitle {
-  font-size: 2rem;
+  font-size: 1.3rem;
   color: var(--text-primary);
   font-weight: 900;
   margin: 0;
@@ -593,16 +593,16 @@ code {
 /* Tablet devices (768px - 1024px) */
 @media (max-width: 1024px) {
   .title {
-    font-size: 4rem;
+    font-size: 3rem;
   }
   
   .subtitle {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
   }
   
   .main-logo {
-    width: 500px;
-    max-width: 85vw;
+    width: 400px;
+    max-width: 80vw;
   }
   
   .lore-card h2 {
@@ -621,18 +621,18 @@ code {
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
   .title {
-    font-size: 2.5rem;
-    line-height: 1.1;
+    font-size: 2rem;
+    line-height: 1.2;
   }
   
   .subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   
   .main-logo {
-    width: 300px;
-    max-width: 80vw;
-    margin: 1rem 0;
+    width: 280px;
+    max-width: 75vw;
+    margin: 0.8rem 0;
   }
   
   /* Hero section */
@@ -782,16 +782,16 @@ code {
 /* Small mobile devices (up to 480px) */
 @media (max-width: 480px) {
   .title {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
   
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   
   .main-logo {
-    width: 250px;
-    max-width: 75vw;
+    width: 220px;
+    max-width: 70vw;
   }
   
   .contract-container {
