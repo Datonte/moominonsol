@@ -593,16 +593,20 @@ code {
 /* Tablet devices (768px - 1024px) */
 @media (max-width: 1024px) {
   .title {
-    font-size: 3.5rem;
+    font-size: 4rem;
   }
   
   .subtitle {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
   
   .main-logo {
-    width: 450px;
-    max-width: 80vw;
+    width: 480px;
+    max-width: 82vw;
+  }
+  
+  .hero-content {
+    gap: 1.3rem;
   }
   
   .lore-card h2 {
@@ -621,18 +625,18 @@ code {
 /* Mobile devices (up to 768px) */
 @media (max-width: 768px) {
   .title {
-    font-size: 2.3rem;
+    font-size: 2.6rem;
     line-height: 1.2;
   }
   
   .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
   
   .main-logo {
-    width: 320px;
-    max-width: 75vw;
-    margin: 0.9rem 0;
+    width: 360px;
+    max-width: 78vw;
+    margin: 1rem 0;
   }
   
   /* Hero section */
@@ -643,7 +647,7 @@ code {
   }
   
   .hero-content {
-    gap: 1rem;
+    gap: 1.1rem;
   }
   
   /* Scroll indicator */
@@ -782,16 +786,20 @@ code {
 /* Small mobile devices (up to 480px) */
 @media (max-width: 480px) {
   .title {
-    font-size: 1.8rem;
+    font-size: 2.1rem;
   }
   
   .subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
   
   .main-logo {
-    width: 240px;
-    max-width: 70vw;
+    width: 270px;
+    max-width: 73vw;
+  }
+  
+  .hero-content {
+    gap: 0.95rem;
   }
   
   .contract-container {
@@ -854,16 +862,16 @@ code {
 /* Extra small devices (up to 360px) */
 @media (max-width: 360px) {
   .title {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
   }
   
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .main-logo {
-    width: 200px;
-    max-width: 70vw;
+    width: 230px;
+    max-width: 72vw;
   }
   
   .hero {
@@ -873,7 +881,7 @@ code {
   }
   
   .hero-content {
-    gap: 0.75rem;
+    gap: 0.85rem;
   }
   
   .action-section {
@@ -918,21 +926,21 @@ code {
   }
   
   .main-logo {
-    width: 180px;
-    max-width: 60vw;
-    margin: 0.5rem 0;
+    width: 200px;
+    max-width: 55vw;
+    margin: 0.4rem 0;
   }
   
   .title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
   
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .hero-content {
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
   
   .scroll-indicator {
