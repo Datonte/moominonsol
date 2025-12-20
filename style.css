@@ -1,0 +1,370 @@
+:root {
+  --bg-color: #e8f4f8;
+  --bg-gradient: linear-gradient(180deg, #e8f4f8 0%, #b8d4e0 50%, #c8e6c9 100%);
+  --text-primary: #2c3e50;
+  --text-secondary: #546e7a;
+  --highlight: #2d9595;
+  /* Darker teal for contrast on light bg */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --font-main: 'Comfortaa', cursive;
+  --snow-color: rgba(255, 255, 255, 0.9);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b8d4e0, #81d4fa);
+  border-radius: 6px;
+  border: 3px solid var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--highlight);
+}
+
+/* Canvas Background */
+#snow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Let clicks pass through */
+  z-index: 0;
+  /* Add a subtle vignette/glow overlay */
+  box-shadow: inset 0 0 100px rgba(100, 200, 255, 0.3);
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Hero Section */
+.hero {
+  min-height: 90vh;
+  /* Slightly reduced to prompt scrolling */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 1000px;
+}
+
+.main-logo {
+  width: 500px;
+  /* Reduced specific to user request to fit text */
+  max-width: 90vw;
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(45, 149, 149, 0.3));
+  margin: 1rem 0;
+}
+
+/* Ensure title is visually above due to HTML change, but adding order just in case */
+.title {
+  font-size: 6rem;
+  /* Bigger title */
+  font-weight: 700;
+  line-height: 1;
+  color: #264653;
+}
+
+.highlight {
+  background: linear-gradient(135deg, rgb(91, 143, 163) 0%, rgb(74, 124, 89) 50%, rgb(45, 95, 95) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  /* Remove shadow for gradient text */
+}
+
+.subtitle {
+  font-size: 2rem;
+  /* Bigger/More prominent */
+  color: var(--text-primary);
+  /* Darker for better readability */
+  font-weight: 900;
+}
+
+/* Action Section (CA + Socials) */
+.action-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Contract Address container */
+.contract-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  /* Solid white for better visibility */
+  border: 2px solid var(--glass-border);
+  /* Thicker border */
+  padding: 1.2rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 10px 25px rgba(45, 149, 149, 0.15);
+  transition: all 0.3s ease;
+  transform: scale(1.1);
+  /* Make CA bigger */
+}
+
+.contract-container:hover {
+  border-color: var(--highlight);
+  box-shadow: 0 10px 30px rgba(45, 149, 149, 0.3);
+  transform: scale(1.15);
+}
+
+.label {
+  color: var(--highlight);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+code {
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1.4rem;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: var(--highlight);
+}
+
+/* Social Buttons */
+.socials {
+  display: flex;
+  gap: 2rem;
+}
+
+.social-btn {
+  text-decoration: none;
+  color: #fff;
+  /* White text on buttons */
+  background: linear-gradient(135deg, #5b8fa3, #2d9595);
+  /* Gradient buttons */
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(45, 149, 149, 0.3);
+}
+
+.social-btn:hover {
+  background: linear-gradient(135deg, #6baec5, #3ebaba);
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(45, 149, 149, 0.4);
+}
+
+/* Lore Section */
+.lore-section {
+  width: 100%;
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.lore-container {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lore-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 2rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  text-align: left;
+}
+
+.lore-card h2 {
+  color: var(--highlight);
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.lore-card p {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.punchline {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Footer */
+.glass-footer {
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: auto;
+  border-top: 1px solid var(--glass-border);
+  background: rgba(13, 27, 42, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+.credits {
+  margin-top: 0.5rem;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 1.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.bounce-hover:hover {
+  animation: bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.slide-in {
+  opacity: 0;
+  transform: translateX(-50px);
+  animation: slideIn 1s ease-out forwards;
+}
+
+.slide-in.delay-1 {
+  animation-delay: 0.5s;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .hero {
+    padding: 1rem;
+  }
+
+  .contract-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .socials {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .social-btn {
+    justify-content: center;
+  }
+}
